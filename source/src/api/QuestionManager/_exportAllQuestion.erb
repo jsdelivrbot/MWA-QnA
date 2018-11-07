@@ -1,0 +1,191 @@
+    /**
+     *
+     * @apiName ExportAllQuestion
+     * @apiGroup Question Manager
+     * @apiVersion 0.1.0
+     *
+     * @api {post} /questionManager/exportAllQuestion/ Export All Question
+     * @apiDescription คำอธิบาย : ในส่วนนี้ทำหน้าที่สร้างรายงานในรูปแบบ Excel ของคำถามทั้งหมด
+     *
+     */
+
+    function exportAllQuestion($app, $pdo, $db, $objPHPExcel) {
+
+        /* ************************* */
+        /* เริ่มกระบวนการรับค่าพารามิเตอร์จากส่วนของ Payload ซึ่งอยู่ในรูปแบบ JSON */
+        /* ************************* */
+        $headers = $app->request->headers;
+        $ContetnType = $app->request->headers->get('Content-Type');
+
+        /**
+        * apidoc @apiSampleRequest, iOS RESTKit use content-type is "application/json"
+        * Web Form, Advance REST Client App use content-type is "application/x-www-form-urlencoded"
+        */
+        if (($ContetnType == "application/json") || ($ContetnType == "application/json; charset=utf-8")) {
+
+            $request = $app->request();
+            $result = json_decode($request->getBody());
+
+            /* receive request */
+            // $postEventID = $result->event_id;
+
+        } else if ($ContetnType == "application/x-www-form-urlencoded"){
+
+            //$userID = $app->request()->params('userID_param');
+            //$userID = $app->request()->post('userID_param');
+        }
+
+        $i = 0;
+        $j = 1;
+
+        $value = trim(preg_replace('/\t+/', '', "ลำดับ"));
+        $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($i++, $j, $value);
+
+        $value = trim(preg_replace('/\t+/', '', "วันที่ถาม"));
+        $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($i++, $j, $value);
+
+        $value = trim(preg_replace('/\t+/', '', "หมวดคำถาม"));
+        $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($i++, $j, $value);
+
+        $value = trim(preg_replace('/\t+/', '', "คำถาม"));
+        $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($i++, $j, $value);
+
+
+        $value = trim(preg_replace('/\t+/', '', "Hint"));
+        $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($i++, $j, $value);
+
+        $value = trim(preg_replace('/\t+/', '', "สถานะการตอบคำถาม"));
+        $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($i++, $j, $value);
+
+
+        /* ************************* */
+        /* เริ่มกระบวนการเชื่อมต่อฐานข้อมูล MySQL */
+        /* ************************* */
+        $reports = array();
+        // $id = 0;
+
+
+        $find_question_type_results = $db->question_type_tb();
+
+        $j = 1;
+        $i = 0;
+
+        foreach ($find_question_type_results as $find_question_type_result) {
+
+            $report_results = $db->question_tb()->where("question_type_id = ? ", $find_question_type_result["question_type_id"])->order("created_date asc");
+
+            
+
+            foreach ($report_results as $report_result) {
+
+
+                  $k = 0;
+                  $j++;
+                  $i++;
+
+
+                  $value = trim(preg_replace('/\t+/', '', $i));
+                  $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($k++, $j, $value);
+
+                  $value = trim(preg_replace('/\t+/', '', $report_result["created_date"]));
+                  $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($k++, $j, $value);
+
+                  $value = trim(preg_replace('/\t+/', '', $find_question_type_result["question_type_detail"]));
+                  $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($k++, $j, $value);
+
+                  $value = trim(preg_replace('/\t+/', '', $report_result["question_detail"]));
+                  $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($k++, $j, $value);
+
+                  $value = trim(preg_replace('/\t+/', '', $report_result["hint"]));
+                  $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($k++, $j, $value);
+
+                  $value = trim(preg_replace('/\t+/', '', $report_result["answer_flag"]));
+                  $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($k++, $j, $value);
+
+
+
+                $reports[] = array(
+                    "id" => $i,
+                    "question_id" => $report_result["id"],
+                    "question_type_id" => $report_result["question_type_id"],
+                    "question_type_name" => $find_question_type_result["question_type_detail"],
+                    "question_detail" => $report_result["question_detail"],
+                    "hint" => $report_result["hint"],
+                    "answer_flag" => $report_result["answer_flag"],
+                    "employee_id" => $report_result["employee_id"],
+                    "employee_name" => $report_result["employee_name"]
+                );
+
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+        /* ************************* */
+        /* เริ่มกระบวนการสร้าง Excel file */
+        /* ************************* */
+
+
+        /* Set Title */
+        // Rename worksheet
+        $objPHPExcel->getActiveSheet()->setTitle('คำถามทั้งหมด');
+
+
+
+        // Set document properties
+        $objPHPExcel->getProperties()->setCreator("Anusorn Kanchanangkun")
+                                     ->setLastModifiedBy("Anusorn Kanchanangkun")
+                                     ->setTitle("Office 2007 XLSX Test Document")
+                                     ->setSubject("Office 2007 XLSX Test Document")
+                                     ->setDescription("Test document for Office 2007 XLSX, generated using PHP classes.")
+                                     ->setKeywords("office 2007 openxml php")
+                                     ->setCategory("Test result file");
+
+
+        // // Redirect output to a client’s web browser (Excel5)
+        // header('Content-Type: application/vnd.ms-excel');
+        // header('Content-Disposition: attachment;filename="01simple.xls"');
+        // header('Cache-Control: max-age=0');
+        // // If you're serving to IE 9, then the following may be needed
+        // header('Cache-Control: max-age=1');
+
+        // // If you're serving to IE over SSL, then the following may be needed
+        // header ('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+        // header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
+        // header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+        // header ('Pragma: public'); // HTTP/1.0
+
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+        $date = new DateTime();
+        $fileName = 'MWA_QnA'.'_'.date("Y-m-d").'_'.$date->getTimestamp().'.xls';
+        $filePath = './resources/files/'.$fileName;
+        $objWriter->save($filePath);
+
+
+
+
+
+        /* ************************* */
+        /* เริ่มกระบวนการส่งค่ากลับ */
+        /* ************************* */
+        $resultText = "success";
+
+        $reportResult = array("status" =>  $resultText,
+                              // "countAll" => $rowCount,
+                              // "countRegistered" => $rowCountRegister, 
+                              // "countNotRegisterd" => $rowCountNotRegister,
+                              "path" => url()."/MWA-QnA/build/src/api/resources/files/".$fileName, 
+                              "rows" => $reports);
+
+        $app->response()->header("Content-Type", "application/json");
+        echo json_encode($reportResult);
+
+    };

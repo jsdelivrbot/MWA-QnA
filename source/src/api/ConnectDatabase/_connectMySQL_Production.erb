@@ -1,0 +1,6 @@
+    /* เชื่อมต่อ MySQL บนเครื่อง 115.31.184.224  */
+    $dsn = "mysql:dbname=mwa-qna;host=localhost;charset=UTF8";
+    $username = "root";
+    $password = "";
+    $pdo = new PDO($dsn, $username, $password);
+    $db = new NotORM($pdo);

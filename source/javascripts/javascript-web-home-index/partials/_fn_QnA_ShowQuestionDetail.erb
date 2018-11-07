@@ -1,0 +1,41 @@
+QnA_ShowQuestionDetail: function (myParams) {
+	// console.log('QnA_ShowQuestionDetail');
+
+
+            // var myQuestionNo = $("#question-no").val();
+            
+            var myID = myParams[0];
+            var myQuestionID = myParams[1];
+            var myQuestionType = myParams[2];
+            var myQuestionDetail = myParams[3];
+            var myHint = myParams[4];
+            var myEmployeeName = myParams[5];
+            var myAnswerFlag = myParams[6];
+
+            $.ajax({
+                url: '../../api/questionManager/checkAnswerFlag/',
+                type: 'POST',
+                contentType: 'application/json',
+                dataType: 'json',
+                data: JSON.stringify({"questionNo": myQuestionID}),
+                cache: false,
+                success: function(data) {
+
+
+                    // fn.QnA_DataTable();
+
+                },
+                error: function(jqXHR, textStatus, errorThrown){
+                        //alert('init error: ' + textStatus);
+                    // setTimeout(fn.QnA_Chart_requestData, 5000);   
+                }
+            });
+
+
+ 
+
+    
+
+
+
+},

@@ -1,0 +1,11 @@
+{
+    "require": {
+        "slim/slim": "2.*",
+        "vrana/notorm": "dev-master",
+        "phpoffice/phpexcel": "dev-master",
+        "aferrandini/phpqrcode": "1.0.1"
+    },
+    "config" : {
+        "vendor-dir" : "./composer_packages"
+    }
+}

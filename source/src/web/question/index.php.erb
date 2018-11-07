@@ -1,0 +1,94 @@
+---
+title: MWA - Q&A
+layout: "layout-question-index"
+
+imageURL: "../../../images"
+---
+
+	<div id="preloader">
+		<div data-loader="circle-side"></div>
+	</div><!-- /Preload -->
+
+	
+	<main>
+		<div id="form_container">
+			<div class="row">
+				<div class="col-md-5">
+					<div id="left_form">
+						<figure><img src="<%= current_page.data.imageURL %>/logo-mwa-qna-question.svg" alt=""></figure>
+						<h2>MWA - Q&A</h2>
+						<p>ถามตอบ ท่านผู้ว่าการ การประปานครหลวง</p>
+						<!-- <a href="#0" id="more_info" data-toggle="modal" data-target="#more-info"><i class="pe-7s-info"></i></a> -->
+					</div>
+				</div>
+				<div class="col-md-7">
+
+					<div id="wizard_container">
+						<div id="top-wizard">
+							<div id="progressbar"></div>
+						</div>
+						<!-- /top-wizard -->
+						<form name="example-1" id="wrapped" method="POST" >
+							
+							<!-- Leave for security protection, read docs for details -->
+							<div id="middle-wizard">
+
+								<div class="submit step">
+									<h3 class="main_question"><strong></strong>กรอกข้อมูลที่ต้องการถาม</h3>
+
+									<div class="row">
+										<div class="col-sm-12">
+											<div class="form-group">
+												<div class="styled-select">
+													<select class="required" name="question_type" id="question_type_id">
+														<option value="" selected>กรุณาเลือกประเภทคำถาม</option>
+														<option value="01">สวัสดิการ/ทรัพยากรบุคคล</option>
+														<option value="02">ธรรมาภิบาลและความรับผิดชอบต่อสังคม</option>
+														<option value="03">การเงิน & การลงทุน</option>
+														<option value="04">ภาพลักษณ์องค์กร</option>
+														<option value="05">Digital MWA/นโยบายอื่นๆ</option>
+														<option value="06">ข้อเสนอแนะ</option>
+													</select>
+												</div>
+											</div>
+										</div>
+									</div>
+									<!-- /row -->
+
+									<div class="row">
+										<div class="col-sm-12">
+											<div class="form-group">
+												<textarea id="question_message" name="question_message" class="form-control required" style="height:150px;" placeholder="คำถาม..."></textarea>
+											</div>
+										</div>
+									</div>
+
+								</div>
+								<!-- /step-->
+
+
+
+
+							</div>
+							<!-- /middle-wizard -->
+							<div id="bottom-wizard">
+								<!-- <button type="button" name="backward" class="backward">ก่อนหน้า </button>
+								<button type="button" name="forward" class="forward">ถัดไป</button> -->
+								<button type="submit" name="process" class="submit">ส่งคำถาม</button>
+							</div>
+							<!-- /bottom-wizard -->
+						</form>
+					</div>
+					<!-- /Wizard container -->
+				</div>
+			</div><!-- /Row -->
+		</div><!-- /Form_container -->
+	</main>
+
+	<footer id="home" class="clearfix">
+		<p>Digital MWA © MWA Q&A 2018</p>
+		<ul>
+			<li><a href="#0" class="animated_link">พัฒนาโดย กพว.ฝพท. การประปานครหลวง</a></li>
+		</ul>
+	</footer>
+	

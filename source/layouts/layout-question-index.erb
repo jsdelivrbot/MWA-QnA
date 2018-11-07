@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title><%= current_page.data.title %></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+        
+
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="<%= current_page.data.title %>">
+        <meta name="author" content="Anusorn">
+        <title><%= current_page.data.title %></title>
+
+        <!-- Favicons-->
+        <link rel="shortcut icon" href="<%= current_page.data.imageURL %>/favicon.ico" type="image/x-icon">
+        <link rel="apple-touch-icon" type="image/x-icon" href="<%= current_page.data.imageURL %>/apple-touch-icon-57x57-precomposed.png">
+        <link rel="apple-touch-icon" type="image/x-icon" sizes="72x72" href="<%= current_page.data.imageURL %>/apple-touch-icon-72x72-precomposed.png">
+        <link rel="apple-touch-icon" type="image/x-icon" sizes="114x114" href="<%= current_page.data.imageURL %>/apple-touch-icon-114x114-precomposed.png">
+        <link rel="apple-touch-icon" type="image/x-icon" sizes="144x144" href="<%= current_page.data.imageURL %>/apple-touch-icon-144x144-precomposed.png">
+
+        <!-- GOOGLE WEB FONT -->
+        <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i" rel="stylesheet">
+
+
+        <%= stylesheet_link_tag "question" , :relative => true %>
+
+        <%= javascript_include_tag "question-2" , :relative => true %>
+
+        
+
+    </head>
+    <body>
+
+        <%= yield %>
+        
+        <%= javascript_include_tag "question" , :relative => true %>
+
+    </body>
+</html>
+
+

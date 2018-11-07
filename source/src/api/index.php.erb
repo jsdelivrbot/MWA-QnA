@@ -1,0 +1,124 @@
+---
+title: AquaDAT - API
+layout: "layout-api"
+---
+<?php
+ 
+    date_default_timezone_set("Asia/Bangkok");
+ 
+    require_once '../../../composer_packages/autoload.php';
+ 
+
+
+
+<% if config[:phase_environment] == "Development" %>
+
+    // Create and configure Slim app
+    /* Slim framework 2.x */
+    $app = new \Slim\Slim();
+    // $logWriter = new \Slim\LogWriter(fopen('./api-debug.log', 'a'));
+    // $app = new \Slim\Slim(array('log.enabled' => true,
+    //                             'log.writer' => $logWriter,
+    //                             'debug' => true));
+
+    /* Connect Database Manager Partial : Localhost */
+    <%= partial "/ConnectDatabase/_connectMySQL_Localhost" %>
+
+<% elsif config[:phase_environment] == "Test" %>
+
+    // Create and configure Slim app
+    /* Slim framework 2.x */
+    $app = new \Slim\Slim();
+    // $logWriter = new \Slim\LogWriter(fopen('./api-debug.log', 'a'));
+    // $app = new \Slim\Slim(array('log.enabled' => true,
+    //                             'log.writer' => $logWriter,
+    //                             'debug' => true));
+    
+    /* Connect Database Manager Partial : Localhost */
+    <%= partial "/ConnectDatabase/_connectMySQL_Localhost" %>
+
+<% elsif config[:phase_environment] == "Production" %>
+
+    // Create and configure Slim app
+    /* Slim framework 2.x */
+    $app = new \Slim\Slim();
+    // $logWriter = new \Slim\LogWriter(fopen('./api-debug.log', 'a'));
+    // $app = new \Slim\Slim(array('log.enabled' => true,
+    //                             'log.writer' => $logWriter,
+    //                             'debug' => true));
+
+    /* Connect Database Manager Partial : Production */
+    <%= partial "/ConnectDatabase/_connectMySQL_Production" %>
+
+<% end %>
+
+
+    /* PHP Excel : Create new PHPExcel object : http://phpexcel.codeplex.com */
+    $objPHPExcel = new \PHPExcel();
+
+
+    /**********************************/
+    /********** Test Manager /*********/
+    /**********************************/
+    <%= partial "/TestManager/_hello" %>
+    $app->get('/testManager/getApiTemplate/',function() use ($app) { getApiTemplate($app); });
+    $app->post('/testManager/postApiTemplate/',function() use ($app) { postApiTemplate($app); });
+
+
+    /*********************************/
+    /**** Authentication Manager /****/
+    /*********************************/
+    /* Authentication manager */
+    $app->post('/authenticationManager/login/',function() use ($app, $pdo, $db) { login($app, $pdo, $db); });
+
+
+    /*********************************/
+    /**** Question Manager /****/
+    /*********************************/
+    /* Question manager */
+    $app->post('/questionManager/summaryAllQuestion/',function() use ($app, $pdo, $db) { summaryAllQuestion($app, $pdo, $db); });
+    $app->post('/questionManager/listQuestionByType/',function() use ($app, $pdo, $db) { listQuestionByType($app, $pdo, $db); });
+    $app->post('/questionManager/showQuestionOnMonitor/',function() use ($app, $pdo, $db) { showQuestionOnMonitor($app, $pdo, $db); });
+    $app->post('/questionManager/checkAnswerFlag/',function() use ($app, $pdo, $db) { checkAnswerFlag($app, $pdo, $db); });
+    $app->post('/questionManager/insertCurrentQuestion/',function() use ($app, $pdo, $db) { insertCurrentQuestion($app, $pdo, $db); });
+    $app->post('/questionManager/listAllApprovedQuestion/',function() use ($app, $pdo, $db) { listAllApprovedQuestion($app, $pdo, $db); });
+    $app->post('/questionManager/exportAllQuestion/',function() use ($app, $pdo, $db, $objPHPExcel) { exportAllQuestion($app, $pdo, $db, $objPHPExcel); });
+    $app->post('/questionManager/insertNewQuestion/',function() use ($app, $pdo, $db) { insertNewQuestion($app, $pdo, $db); });
+ 
+ 
+    // Run app
+    $app->run();
+
+
+    /* PHP Function */
+    <%= partial "/Functions/_phpFunction" %>
+
+    
+    /******************************************/
+    /********** Test Manager Partial /*********/
+    /******************************************/
+    <%= partial "/TestManager/_getApiTemplate" %>
+    <%= partial "/TestManager/_postApiTemplate" %>
+
+
+    /*********************************/
+    /**** Authentication Manager /****/
+    /*********************************/
+    /* Authentication manager Partial */
+    <%= partial "/AuthenticationManager/_login" %>
+
+
+    /*********************************/
+    /**** Question Manager /****/
+    /*********************************/
+    /* Question manager Partial */
+    <%= partial "/QuestionManager/_summaryAllQuestion" %>
+    <%= partial "/QuestionManager/_listQuestionByType" %>
+    <%= partial "/QuestionManager/_showQuestionOnMonitor" %>
+    <%= partial "/QuestionManager/_checkAnswerFlag" %>
+    <%= partial "/QuestionManager/_insertCurrentQuestion" %>
+    <%= partial "/QuestionManager/_listAllApprovedQuestion" %>
+    <%= partial "/QuestionManager/_exportAllQuestion" %>
+    <%= partial "/QuestionManager/_insertNewQuestion" %>
+ 
+?>

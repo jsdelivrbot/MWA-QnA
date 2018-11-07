@@ -1,0 +1,279 @@
+QnA_DataTable: function () {
+	// console.log('qna_DataTable');
+
+    // $('#example').DataTable();
+    
+    dataSet = [];
+
+	// console.log(paramCategoryName);
+
+
+  // if ($.fn.DataTable.isDataTable('#qna_datatable') ) {
+  //     $('#qna_datatable').empty();
+  //     $('#qna_datatable').dataTable().fnDestroy();
+  //     $('#qna_datatable > thead > tr').remove();
+  //     $('#qna_datatable > tfoot > tr').remove();
+  //     // $('#qna_datatable').deleteTFoot();
+  // }
+
+
+
+    function DataTableAttendee_Render(result) {
+
+    	console.log(result);
+        
+        dataSet = [];
+
+        // $("#question-type-id").html("หมวด" + result.question_type);
+
+
+
+        for (var i=0; i < result.rows.length; i++ ) {
+
+        	var tmpDataSet = [];
+
+        	// tmpDataSet.push(parseInt(i+1));
+            tmpDataSet.push(result.rows[i].id);
+            tmpDataSet.push(result.rows[i].question_id);
+        	// tmpDataSet.push("หมวด" + result.question_type);
+            tmpDataSet.push(result.rows[i].question_type_name)
+        	tmpDataSet.push(result.rows[i].question_detail);
+        	tmpDataSet.push(result.rows[i].hint);
+        	tmpDataSet.push(result.rows[i].employee_name);
+        	tmpDataSet.push(result.rows[i].answer_flag);
+
+        	dataSet.push(tmpDataSet);
+        }
+
+
+        // ALL (EPOD + NON_EPOD)
+        qna_datatable.clear().draw();
+        qna_datatable.rows.add(dataSet); // Add new data
+        qna_datatable.columns.adjust().draw(); // Redraw the DataTable
+        $('.dataTables_processing', $('#qna_datatable').closest('.dataTables_wrapper')).hide();
+
+        $('.dataTables_processing').css("visibility","hidden");
+
+
+        // $("#example_processing").css("visibility","visible");
+        // $("#example_processing").css("visibility","hidden");
+        // $("#example_processing").html("new processing");
+
+
+
+
+
+    }
+
+
+
+
+	//------------------------ datatableVehicle Daily -----------------------//
+    if (jQuery().dataTable) {
+
+
+	    qna_datatable = $('#qna-datatable').DataTable( {
+	        // "responsive": true,
+
+	        // "scrollY":        200,
+	        "deferRender":    true,
+	        // "scroller":       true,
+            "processing": true,
+            "bDestroy": true,
+            "bAutoWidth": false,
+            // "deferRender":    true,
+            "scrollX":        true,
+            // "scrollY":        '40vh',
+            "scrollCollapse": true,
+            "paging":         false,
+            // "dom": '<"top"fi>rt<"bottom"lp><"clear">',
+            "ajax": {
+                "url": "../../api/questionManager/listAllApprovedQuestion/",
+                "type": "POST",
+                "data": function ( d ) {
+                        
+                        // console.log(paramCategoryName);
+                        // d.eventID = "event-2017-02";
+
+                        // d.questionType = paramCategoryName;
+                        return d;
+                },
+                "dataSrc": "rows",
+                "success": function(data) {
+                        // alert(data);
+                        // console.log('success');
+                        // console.log(data);
+
+                        // fn.DataTableVehicle_Daily_Render(data);
+                        DataTableAttendee_Render(data);
+                },
+                "error": function(jqXHR, textStatus, errorThrown){
+                    console.log(jqXHR);
+                    console.log(textStatus);
+                    console.log(errorThrown);
+                    console.log('init error: ' + textStatus);
+                }
+            },
+            "aoColumnDefs": [
+        		{
+                    'bSortable': true,
+                    "sWidth": "5px",
+                    "render": function ( data, type, row ) {
+                        return data;
+                    },
+                    'aTargets': [0]
+                },{
+                    "visible": false,
+                    "searchable": false,
+                    'aTargets': [1]
+                },{
+                    'bSortable': true,
+                    "sWidth": "120px",
+                    "render": function ( data, type, row ) {
+
+                        return data;
+                    },
+                    'aTargets': [2]
+                },{
+                    'bSortable': true,
+                    "sWidth": "200px",
+                    "render": function ( data, type, row ) {
+
+                        // console.log(data);
+                        // console.log(row);
+
+                        var tmpRender;
+
+
+                        if ((row[4] == "-") || (row[4] == "")) {
+                            // return  data;
+                            return "<span class='badge badge-info'>Question</span> " + data;
+                        } else {
+                            return "<span class='badge badge-info'>Question</span> " + data;
+                            // return data;
+                        }
+
+                        // return data;
+                    },
+                    'aTargets': [3]
+                },{
+                    "visible": true,
+                    "searchable": true,
+                    "render": function ( data, type, row ) {
+
+                        // console.log(data);
+                        // console.log(row);
+
+                        var tmpRender;
+
+
+                        if ((row[4] == "-") || (row[4] == "")) {
+                            return  data;
+                        } else {
+                            return "<span class='badge badge-info'>Hint</span> " + data;
+                            // return data;
+                        }
+
+                        // return data;
+                    },
+                    'aTargets': [4]
+                },{
+                    "visible": false,
+                    "searchable": false,
+                    'aTargets': [5]
+                },{
+                    'bSortable': true,
+                    "sWidth": "40px",
+                    "render": function ( data, type, row ) {
+
+                        var tmpRender;
+
+                        if (row[6] != "0") {
+                            tmpRender = "<button class='btn btn-circle btn-success btn-xxlarge'><i class='fa fa-check-circle'></i></button>";
+                        } else {
+                            tmpRender = "<button class='btn btn-circle btn-gray btn-xxlarge'><i class='fa fa-check-circle fa-inverse'></i></button>";
+                        }
+
+                        // if (row[6] != "0") {
+                        //     tmpRender = "<button type='button' class='btn btn-success'><i class='fa  fa-check-circle'></i> " + "ตอบคำถาม" + "</button>";
+                        // } else {
+                        //     tmpRender = "<button type='button' class='btn btn-primary'><i class='fa  fa-info-circle fa-inverse'></i> " + "ตอบคำถาม" + "</button>";
+                        // }
+
+                        return tmpRender;
+                    },
+                    "targets": [-1]
+                },{
+                    'bSortable': false,
+                    // "bAutoWidth": true,
+                    "render": function ( data, type, row ) {
+
+                        return data;
+                    },
+                    "aTargets": '_all'
+                },{ 
+                        "sClass": "Datatable-common", 
+                        "aTargets": [0, -1] 
+                    }
+            ]
+	    } );
+
+        qna_datatable.columns.adjust().draw();
+
+
+        // $('#qna-datatable tbody').on( 'click', 'tr', function () {
+        //     if ( $(this).hasClass('selected') ) {
+        //         $(this).removeClass('selected');
+        //     }
+        //     else {
+        //         qna_datatable.$('tr.selected').removeClass('selected');
+        //         $(this).addClass('selected');
+        //     }
+        // } );
+
+
+        $('#qna-datatable tbody').on( 'dblclick', 'td', function () {
+
+            // if ( $(this).hasClass('selected') ) {
+            //     $(this).removeClass('selected');
+            // } else {
+            //     qna_datatable.$('tr.selected').removeClass('selected');
+            //     $(this).addClass('selected');
+            // }
+
+
+
+
+
+
+
+              var data = qna_datatable.row($(this).closest('tr')).data();
+              // console.log(data);
+
+              var rowIdx = qna_datatable.cell( this ).index().row;
+              // console.log(rowIdx);
+
+              var columnIdx = qna_datatable.cell( this ).index().column;
+              // console.log(columnIdx);
+              // console.log(data[columnIdx]);
+
+              if (columnIdx >= 6) {
+                fn.QnA_ShowQuestionDetail(data);
+
+                // qna_datatable.row('.selected').remove().draw( false );
+
+                // console.log(rowIdx);
+                qna_datatable.row(rowIdx).remove().draw();
+
+              }
+            
+
+
+            // alert("HEllo");
+        } );
+
+
+	}
+
+
+},

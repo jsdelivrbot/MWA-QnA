@@ -1,0 +1,24 @@
+{
+  "name": "fp",
+  "homepage": "https://github.com/chmln/flatpickr",
+  "authors": [
+    "Gregory"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "flatpickr": "github:chmln/flatpickr#master"
+  },
+  "_cacheHeaders": {
+    "ETag": "\"8e8186b968754af52872e0b818a0bf634a796caf\"",
+    "Content-Length": "754408",
+    "Content-Type": "application/zip",
+    "Content-Disposition": "attachment; filename=flatpickr-gh-pages.zip"
+  },
+  "_release": "e-tag:8e8186b96",
+  "_source": "https://github.com/chmln/flatpickr/archive/gh-pages.zip",
+  "_target": "*",
+  "_originalSource": "https://github.com/chmln/flatpickr/archive/gh-pages.zip"
+}

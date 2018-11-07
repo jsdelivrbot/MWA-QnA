@@ -1,0 +1,165 @@
+QnA_Chart: function () {
+	// console.log('Attendee_Chart');
+
+
+                                                    
+
+    
+// $('#attendee-chart').highcharts({
+qna_chart = new Highcharts.Chart({
+        chart: {
+            type: 'column',
+            renderTo: 'qna-chart',
+            // height: (43) + '%',
+            events: {
+                load: fn.QnA_Chart_requestData
+            }
+        },
+        title: {
+            text: 'MWA Q&A - 2017'
+        },
+        subtitle: {
+            text: 'กราฟแสดงจำนวนคำถาม แยกตามหมวดต่างๆ'
+        },
+        xAxis: {
+            categories: ['สวัสดิการ/รักษาพยาบาล/ค่าเล่าเรียน',
+                        'ธรรมาภิบาลและความรับผิดชอบต่อสังคม',
+                        'การเงิน & การลงทุน',
+                        'ทรัพยากรบุคคล',
+                        'Digital MWA/นโยบายอื่นๆ',
+                        'ภาพลักษณ์องค์กร']
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: '% คำถาม'
+            },
+            tickInterval:10,
+            gridLineDashStyle: 'longdash',
+            lineWidth: 1,
+            labels: {
+                format: '{value} %'
+            }
+        },
+        tooltip: {
+            pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ข้อ ({point.percentage:.0f}%)<br/>',
+            shared: true
+        },
+        plotOptions: {
+            column: {
+                stacking: 'percent'
+            },
+            series: {
+                cursor: 'pointer',
+                point: {
+                    events: {
+                        click: function() {
+                            // for (var i = 0; i < this.series.data.length; i++) {
+                            //     this.series.data[i].update({ color: '#ECB631' }, true, false);
+                            // }
+                            // this.update({ color: '#f00' }, true, false)
+
+                            // console.log("click");
+                            // console.log(this);
+                            // console.log(this.x);
+                            // console.log(this.category);
+                            // console.log(this.series);
+                            // console.log(this.series.data);
+
+                            var etop = $('#' + 'panel-detail').first().offset().top - 40;
+                                $('html, body').animate({
+                                  scrollTop: etop
+                                }, 1000);
+
+
+                            $("#question-type-show").val('');
+                            $("#question-show").html('');
+                            $("#hint-show").html('');
+                            $("#question-no").val('');
+
+                            fn.QnA_Chart_requestData();
+                            fn.QnA_DataTable(this.category);
+
+
+
+
+                        }
+                    }
+                },
+                events: {
+                    legendItemClick: function () {
+
+                        return false;
+
+                        // var visibility = this.visible ? 'visible' : 'hidden';
+                        // if (!confirm('The series is currently ' + visibility + '. Do you want to change that?')) {
+                        //     return false;
+                        // }
+                }
+            }
+            }
+        },
+        // exporting: {
+        //     chartOptions: { // specific options for the exported image
+        //         plotOptions: {
+        //             series: {
+        //                 dataLabels: {
+        //                     enabled: true
+        //                 }
+        //             }
+        //         }
+        //     },
+        //     scale: 3,
+        //     fallbackToExportServer: false
+        // },
+        // credits: {
+        //   enabled: false
+        // },
+        
+        series: [{
+            name: 'คำถามที่ยังไม่ได้ตอบ',
+            color: '#DC143C',
+            data: [2, 3, 4, 4, 2 ,5],
+            dataLabels: {
+                enabled: true,
+                // rotation: -90,
+                color: '#FFFFFF',
+                align: 'center',
+                // x: 4,
+                // y: 10,
+                style: {
+                    fontSize: '13px',
+                    fontFamily: 'Verdana, sans-serif'
+                },
+                formatter: function() {
+                    // console.log(this);
+                    // console.log(this.y);
+                    return this.y > 0 ? this.y + ' ข้อ' : null;
+                }
+            }
+        },{
+            name: 'คำถามที่ตอบแล้ว',
+            color: '#7FFF00',
+            data: [5, 3, 4, 7, 2 ,5],
+            dataLabels: {
+                enabled: true,
+                // rotation: -90,
+                color: '#FFFFFF',
+                align: 'center',
+                // x: 4,
+                // y: 10,
+                style: {
+                    fontSize: '13px',
+                    fontFamily: 'Verdana, sans-serif'
+                },
+                formatter: function() {
+                    // console.log(this);
+                    // console.log(this.y);
+                    return this.y > 0 ? this.y + ' ข้อ' : null;
+                }
+            }
+        }]
+    });
+
+
+},

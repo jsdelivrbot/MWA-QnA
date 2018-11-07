@@ -1,0 +1,117 @@
+    /**
+     *
+     * @apiName ShowQuestionOnMonitor
+     * @apiGroup Question Manager
+     * @apiVersion 0.1.0
+     *
+     * @api {post} /questionManager/showQuestionOnMonitor/ showQuestionOnMonitor
+     * @apiDescription คำอธิบาย : ในส่วนนี้ทำหน้าแสดงคำถามบนจอมอนิเตอร์
+     *
+     */
+
+    function showQuestionOnMonitor($app, $pdo, $db) {
+
+        /* ************************* */
+        /* เริ่มกระบวนการรับค่าพารามิเตอร์จากส่วนของ Payload ซึ่งอยู่ในรูปแบบ JSON */
+        /* ************************* */
+        $headers = $app->request->headers;
+        $ContetnType = $app->request->headers->get('Content-Type');
+
+        /**
+        * apidoc @apiSampleRequest, iOS RESTKit use content-type is "application/json"
+        * Web Form, Advance REST Client App use content-type is "application/x-www-form-urlencoded"
+        */
+        if (($ContetnType == "application/json") || ($ContetnType == "application/json; charset=utf-8")) {
+
+            $request = $app->request();
+            $result = json_decode($request->getBody());
+
+
+            // $app->log->debug('Request path: ' . $request->getPathInfo());
+
+            /* receive request */
+            // $postUsername = $result->username;
+            // $postPassword = $result->password;
+
+            // $app->log->debug('postUsername: ' . $postUsername);
+            // $app->log->debug('postPassword: ' . $postPassword);
+
+
+        } else if ($ContetnType == "application/x-www-form-urlencoded"){
+
+            //$userID = $app->request()->params('userID_param');
+            //$userID = $app->request()->post('userID_param');
+        }
+
+
+        /* ************************* */
+        /* เริ่มกระบวนการเชื่อมต่อฐานข้อมูล MySQL */
+        /* ************************* */
+        $reports = array();
+
+        $result_max_id = $db->current_question_tb()->max("id");
+
+
+        if ($result_max_id) {
+
+            $results_current_question = $db->current_question_tb()->where("id = ? and enable_flag = 1", $result_max_id)->fetch();
+
+            if ($results_current_question) {
+
+
+                $results_current_question_detail = $db->question_tb()->where("id = ?", $results_current_question["question_id"])->fetch();
+
+                if ($results_current_question_detail) {
+
+                    $results__question_type = $db->question_type_tb()->where("question_type_id = ?", $results_current_question_detail["question_type_id"])->fetch();
+
+                    if ($results__question_type) {
+                        $question_type = $results__question_type["question_type_detail"];
+                    } else {
+                        $question_type = "";
+                    }
+                    
+                    $question_message = $results_current_question_detail["question_detail"];
+                } else {
+                    $question_type = "";
+                    $question_message = "";
+                }
+                
+            } else {
+                $question_type = "";
+                $question_message = "";
+            }
+            
+
+        } else {
+            $question_type = "";
+            $question_message = "";
+        }
+
+
+
+        // if ($results) {
+            $resultText = "success";
+            $resultMsg = "สำเร็จ";
+        // } else {
+        //     $resultText = "fail";
+        //     $resultMsg = "ไม่สำเร็จ";
+        // }
+
+
+        /* ************************* */
+        /* เริ่มกระบวนการส่งค่ากลับ */
+        /* ************************* */
+
+
+        $reportResult = array("result" =>  $resultText, 
+                              "message" => $resultMsg,
+                              "question_type" => $question_type,
+                              "question_msg" => $question_message);
+
+
+        $app->response()->header("Content-Type", "application/json");
+        echo json_encode($reportResult);
+
+
+    };

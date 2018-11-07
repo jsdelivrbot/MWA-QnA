@@ -1,0 +1,47 @@
+QnA_Chart_requestData: function () {
+	// console.log('Attendee_Chart_requestData');
+
+
+
+    $.ajax({
+        url: '../../api/questionManager/summaryAllQuestion/',
+        type: 'POST',
+        contentType: 'application/json',
+        dataType: 'json',
+        // data: JSON.stringify({"event_id": "event-2017-02"}),
+        cache: false,
+        success: function(data) {
+
+
+
+            // var chartData = [34.4, 21.8, 20.1, 20, 19.6, 19.5, 19.1, 18.4, 18, 17.3];
+
+            qna_chart.series[0].setData(data.arrNonAnswer);
+            qna_chart.series[1].setData(data.arrAnswer);
+            
+            qna_chart.xAxis[0].setCategories(data.arrQuestionType);
+
+
+
+            if (myTimer) {
+                clearTimeout(myTimer);
+                // console.log("myTimer is clear.");
+            }
+            
+            // call it again after one second
+            myTimer = setTimeout(fn.QnA_Chart_requestData, 60000);    
+        },
+        error: function(jqXHR, textStatus, errorThrown){
+                //alert('init error: ' + textStatus);
+            setTimeout(fn.QnA_Chart_requestData, 5000);   
+        }
+    });
+
+
+
+
+    
+
+
+
+},

@@ -1,0 +1,103 @@
+---
+title: MWA - Q&A
+layout: "layout-question-send"
+
+imageURL: "../../../images"
+---
+
+
+<?php
+		
+    require_once '../../../../composer_packages/autoload.php';
+
+		// echo " ชนิดคำถาม : ".$_POST['question_type'];
+		// echo " คำถาม : ".$_POST['question_message'];
+		// echo " รหัสพนักงาน : ".$_POST['employee_id'];
+		// echo " ชื่อ : ".$_POST['firstname_lastname'];
+		
+
+<% if config[:phase_environment] == "Development" %>
+
+    /* Connect Database Manager Partial : Localhost */
+    <%= partial "../../api/ConnectDatabase/_connectMySQL_Localhost" %>
+
+<% elsif config[:phase_environment] == "Test" %>
+    
+    /* Connect Database Manager Partial : Localhost */
+    <%= partial "../../api/ConnectDatabase/_connectMySQL_Localhost" %>
+
+<% elsif config[:phase_environment] == "Production" %>
+
+    /* Connect Database Manager Partial : Production */
+    <%= partial "../../api/ConnectDatabase/_connectMySQL_Production" %>
+
+<% end %>
+
+
+				$question = $db->question_tb();
+				$data = array(
+				    "question_type_id" => $_POST['question_type'],
+				    "question_detail" => $_POST['question_message'],
+				    "hint" => "-",
+				    "answer_flag" => "0",
+				    "admin_approved_flag" => "0",
+				    "employee_id" => "",
+				    "employee_name" => ""
+				);
+				$result = $question->insert($data);
+
+
+
+
+
+
+						// $mail = $_POST['email'];
+						// $to = "test@domain.com";/* YOUR EMAIL HERE */
+						// $subject = "Registration from MAVIA";
+						// $headers = "From: Registration from MAVIA <noreply@yourdomain.com>";
+						// $message = "DETAILS\n";
+						// $message .= "\nFirst name: " . $_POST['firstname'];
+						// $message .= "\nLast name: " . $_POST['lastname'];
+						// $message .= "\nEmail: " . $_POST['email'];
+						// $message .= "\nTelephone: " . $_POST['telephone'];
+						// $message .= "\nAge: " . $_POST['age'];
+						// $message .= "\nGender: " . $_POST['gender'] . "\n";
+						// $message .= "\nAddress: " . $_POST['address'];
+						// $message .= "\nCity: " . $_POST['city'];
+						// $message .= "\nZipcode: " . $_POST['zip_code'];
+						// $message .= "\nCountry: " . $_POST['country'] . "\n";
+						// $message .= "\nAdditional message: " . $_POST['additional_message'];
+						// $message .= "\nTerms and conditions accepted: " . $_POST['terms'];
+												
+						// //Receive Variable
+						// $sentOk = mail($to,$subject,$message,$headers);
+						
+						// //Confirmation page
+						// $user = "$mail";
+						// $usersubject = "Thank You";
+						// $userheaders = "From: info@mavia.com\n";
+						// /*$usermessage = "Thank you for your time. Your quotation request is successfully submitted.\n"; WITH OUT SUMMARY*/
+						// //Confirmation page WITH  SUMMARY
+						// $usermessage = "Thank you for your time. Your request is successfully submitted. We will reply shortly.\n\nBELOW A SUMMARY\n\n$message"; 
+						// mail($user,$usersubject,$usermessage,$userheaders);
+	
+?>
+<!-- END SEND MAIL SCRIPT -->   
+
+<div id="success">
+    <div class="icon icon--order-success svg">
+              <svg xmlns="http://www.w3.org/2000/svg" width="72px" height="72px">
+                <g fill="none" stroke="#8EC343" stroke-width="2">
+                  <circle cx="36" cy="36" r="35" style="stroke-dasharray:240px, 240px; stroke-dashoffset: 480px;"></circle>
+                  <path d="M17.417,37.778l9.93,9.909l25.444-25.393" style="stroke-dasharray:50px, 50px; stroke-dashoffset: 0px;"></path>
+                </g>
+              </svg>
+     </div>
+<!-- <h4><span>Request successfully sent!</span>Thank you for your time</h4> -->
+<h4><span>ส่งคำถาม สำเร็จ!</span>Digital MWA</h4>
+<small>You will be redirect back in 5 seconds.</small>
+
+
+</div>
+</body>
+</html>

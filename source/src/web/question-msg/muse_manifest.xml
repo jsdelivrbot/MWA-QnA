@@ -1,0 +1,38 @@
+<manifest alg="2" build="2018.0.0.379" opt="true" iceEnabled="true" iceMarkupVersion="2" iceEnabledOptions="link,responsive,cachebuster,textStyling" exportTarget="other" domain="mwa-qna.com" resolutions="1x" timestamp="1513235612300">
+  <folder name="css">
+    <file name="site_global.css" crc="348957340"/>
+    <file name="master_a-master.css" crc="480998918" ref="index"/>
+    <file name="nomq_preview_master_a-master.css" crc="3824530138" ref="index"/>
+    <file name="index.css" crc="448960283" ref="index"/>
+    <file name="nomq_index.css" crc="4106384094" ref="index"/>
+  </folder>
+  <folder name="fonts">
+    <file name="subset-prompt-bold.woff" crc="20166031"/>
+    <file name="subset-prompt-bold.eot" crc="3949084988"/>
+    <file name="prompt-bold.svg" crc="3801428150"/>
+    <file name="sriracha-regular.woff" crc="4129807514"/>
+    <file name="sriracha-regular.eot" crc="343940194"/>
+    <file name="sriracha-regular.svg" crc="4232157903"/>
+  </folder>
+  <folder name="scripts">
+    <file name="jquery-1.8.3.min.js" crc="209076791" ref="index"/>
+    <file name="museutils.js" crc="3803043152" ref="index"/>
+    <file name="whatinput.js" crc="86476730" ref="index"/>
+    <file name="museconfig.js" crc="4153641093" ref="index"/>
+    <file name="jquery.watch.js" crc="99325471" ref="index"/>
+    <file name="jquery.museresponsive.js" crc="3955820958" ref="index"/>
+    <file name="require.js" crc="4157109226" ref="index"/>
+  </folder>
+  <folder name="images">
+    <file name="templateq-a.png" crc="4136041844" seo="true" ref="index">
+      <caption webpage="index" alt=""/>
+      <caption webpage="index" alt=""/>
+    </file>
+    <file name="templateq-a-footer.png" crc="3961855172" seo="true" ref="index">
+      <caption webpage="index" alt=""/>
+      <caption webpage="index" alt=""/>
+    </file>
+    <file name="blank.gif" crc="4208392903" ref="index"/>
+  </folder>
+  <file name="index.html" crc="194887478" seo="true" mt="1513235577287" redirect="true"/>
+</manifest>

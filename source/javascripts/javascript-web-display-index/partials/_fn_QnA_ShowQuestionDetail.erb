@@ -1,0 +1,45 @@
+QnA_ShowQuestionDetail: function (myParams) {
+	// console.log('QnA_ShowQuestionDetail');
+
+
+
+    console.log("Params : " + myParams[1]);
+
+        	// tmpDataSet.push(parseInt(i+1));
+         //    tmpDataSet.push(result.rows[i].question_id);
+        	// tmpDataSet.push("หมวด" + result.question_type);
+        	// tmpDataSet.push(result.rows[i].question_detail);
+        	// tmpDataSet.push(result.rows[i].hint);
+        	// tmpDataSet.push(result.rows[i].employee_name);
+        	// tmpDataSet.push(result.rows[i].answer_flag);
+    
+    var myID = myParams[0];
+    var myQuestionID = myParams[1];
+    var myQuestionType = myParams[2];
+    var myQuestionDetail = myParams[3];
+    var myHint = myParams[4];
+    var myEmployeeName = myParams[5];
+    var myAnswerFlag = myParams[6];
+
+    $("#question-type-show").val(myQuestionType);
+    $("#question-show").html(myQuestionDetail);
+    $("#hint-show").html(myHint);
+
+    $("#question-no").val(myQuestionID);
+
+
+    $("#btnSend").attr("disabled", true);
+
+    if (myAnswerFlag == "0") {
+        // $("#btnSend").removeAttr("disabled");
+        $("#btnSave").removeAttr("disabled");
+    } else {
+        // $("#btnSend").attr("disabled", true);
+        $("#btnSave").attr("disabled", true);
+    }
+
+    
+
+
+
+},

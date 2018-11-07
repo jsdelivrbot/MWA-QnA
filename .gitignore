@@ -1,0 +1,11 @@
+.bundle
+.cache
+.DS_Store
+.sass-cache
+build/
+
+# Ignore the build directory
+/build
+
+# Ignore the composer_packages directory
+/composer_packages

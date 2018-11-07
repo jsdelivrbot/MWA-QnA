@@ -1,0 +1,5 @@
+    $dsn = "mysql:dbname=mwa-qna;host=localhost;charset=UTF8";
+    $username = "root";
+    $password = "1234";
+    $pdo = new PDO($dsn, $username, $password);
+    $db = new NotORM($pdo);

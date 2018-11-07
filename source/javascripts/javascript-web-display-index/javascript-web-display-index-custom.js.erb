@@ -1,0 +1,46 @@
+(function ($) {
+    "use strict";
+ 
+    ///////////////////////////////////////////////////// Your
+    // var venueAddress = "Grand Place, 1000, Brussels"; // Venue
+
+    // var pageName = "home";
+    // var pubnub;
+    
+    var qna_chart;
+
+    var qna_datatable;
+    var dataSet = [];
+
+    var myTimer;
+
+    /////////////////////////////////////////////////// Adress
+ 
+    var fn = {
+ 
+        // Launch Functions
+        Launch: function () {
+
+            fn.QnA_Chart();
+            fn.QnA_DataTable("สวัสดิการ/รักษาพยาบาล/ค่าเล่าเรียน");
+            fn.Apps();
+        },
+        
+        <%= partial "/partials/_fn_QnA_Chart" %>
+        <%= partial "/partials/_fn_QnA_Chart_requestData" %>
+        <%= partial "/partials/_fn_QnA_DataTable" %>
+        <%= partial "/partials/_fn_QnA_ShowQuestionDetail" %>
+
+ 		// Apps
+        <%= partial "/partials/_fn_Apps" %>
+
+
+    };
+ 
+    $(document).ready(function () {
+        fn.Launch();
+    });
+ 
+})(jQuery);
+
+

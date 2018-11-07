@@ -1,0 +1,74 @@
+    /**
+     *
+     * @apiName Login
+     * @apiGroup Authentication Manager
+     * @apiVersion 0.1.0
+     *
+     * @api {post} /authenticationManager/login/ Login
+     * @apiDescription คำอธิบาย : ในส่วนนี้ทำหน้าจัดการในส่วนของการ Login เข้าใช้งานระบบ
+     *
+     */
+
+    function login($app, $pdo, $db) {
+
+        /* ************************* */
+        /* เริ่มกระบวนการรับค่าพารามิเตอร์จากส่วนของ Payload ซึ่งอยู่ในรูปแบบ JSON */
+        /* ************************* */
+        $headers = $app->request->headers;
+        $ContetnType = $app->request->headers->get('Content-Type');
+
+        /**
+        * apidoc @apiSampleRequest, iOS RESTKit use content-type is "application/json"
+        * Web Form, Advance REST Client App use content-type is "application/x-www-form-urlencoded"
+        */
+        if (($ContetnType == "application/json") || ($ContetnType == "application/json; charset=utf-8")) {
+
+            $request = $app->request();
+            $result = json_decode($request->getBody());
+
+
+            // $app->log->debug('Request path: ' . $request->getPathInfo());
+
+            /* receive request */
+            $postUsername = $result->username;
+            $postPassword = $result->password;
+
+            // $app->log->debug('postUsername: ' . $postUsername);
+            // $app->log->debug('postPassword: ' . $postPassword);
+
+
+        } else if ($ContetnType == "application/x-www-form-urlencoded"){
+
+            //$userID = $app->request()->params('userID_param');
+            //$userID = $app->request()->post('userID_param');
+        }
+
+
+        /* ************************* */
+        /* เริ่มกระบวนการเชื่อมต่อฐานข้อมูล MySQL */
+        /* ************************* */
+        $reports = array();
+
+        $results = $db->users_info_tb()->where("username = ? AND password = ?", $postUsername, $postPassword)->fetch();
+
+        if ($results) {
+            $resultText = "success";
+            $resultMsg = "สำเร็จ";
+        } else {
+            $resultText = "fail";
+            $resultMsg = "ไม่สำเร็จ";
+        }
+
+
+        /* ************************* */
+        /* เริ่มกระบวนการส่งค่ากลับ */
+        /* ************************* */
+        $reportResult = array("result" =>  $resultText, 
+                              "message" => $resultMsg);
+
+
+        $app->response()->header("Content-Type", "application/json");
+        echo json_encode($reportResult);
+
+
+    };

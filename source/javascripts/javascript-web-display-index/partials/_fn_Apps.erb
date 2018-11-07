@@ -1,0 +1,153 @@
+// Apps
+Apps: function () {
+	// console.log('Apps');
+
+
+	$("#btnSave").attr("disabled", true);
+	$("#btnSend").attr("disabled", true);
+
+
+	$("#btnSave").click(function(){
+	    // alert("The paragraph was clicked., Save");
+
+	    	var myQuestionNo = $("#question-no").val();
+	    	
+
+		    $.ajax({
+		        url: '../../api/questionManager/checkAnswerFlag/',
+		        type: 'POST',
+		        contentType: 'application/json',
+		        dataType: 'json',
+		        data: JSON.stringify({"questionNo": myQuestionNo}),
+		        cache: false,
+		        success: function(data) {
+
+
+				    var myQuestionType = $("#question-type-show").val();
+				    	myQuestionType = myQuestionType.substring(4);
+				    // alert(myQuestionType);
+
+				    fn.QnA_DataTable(myQuestionType);
+				    fn.QnA_Chart_requestData();
+
+				    $("#btnSave").attr("disabled", true);
+				    // $("#btnSend").attr("disabled", true);
+
+
+
+				    // alert("บันทึกสำเร็จ");
+
+		        	// alert(data.question_no);
+		        	
+		            // // var chartData = [34.4, 21.8, 20.1, 20, 19.6, 19.5, 19.1, 18.4, 18, 17.3];
+
+		            // qna_chart.series[0].setData(data.arrNonAnswer);
+		            // qna_chart.series[1].setData(data.arrAnswer);
+		            
+		            // qna_chart.xAxis[0].setCategories(data.arrQuestionType);
+
+
+
+		            // if (myTimer) {
+		            //     clearTimeout(myTimer);
+		            //     // console.log("myTimer is clear.");
+		            // }
+		            
+		            // // call it again after one second
+		            // myTimer = setTimeout(fn.QnA_Chart_requestData, 60000);    
+		        },
+		        error: function(jqXHR, textStatus, errorThrown){
+		                //alert('init error: ' + textStatus);
+		            // setTimeout(fn.QnA_Chart_requestData, 5000);   
+		        }
+		    });
+
+
+
+
+
+	});
+
+	$("#btnSend").click(function(){
+	    // alert("The paragraph was clicked., Send");
+
+	    	var myQuestionNo = $("#question-no").val();
+	    	
+
+		    $.ajax({
+		        url: '../../api/questionManager/insertCurrentQuestion/',
+		        type: 'POST',
+		        contentType: 'application/json',
+		        dataType: 'json',
+		        data: JSON.stringify({"questionNo": myQuestionNo}),
+		        cache: false,
+		        success: function(data) {
+
+		        	if (data.result == "success") {
+		        		alert(" ส่งคำถามไปแสดงบนจอมอนิเตอร์ สำเร็จ");
+		        	}
+
+				    // var myQuestionType = $("#question-type-show").val();
+				    // 	myQuestionType = myQuestionType.substring(4);
+				    // // alert(myQuestionType);
+
+				    // fn.QnA_DataTable(myQuestionType);
+				    // fn.QnA_Chart_requestData();
+
+				    // $("#btnSave").attr("disabled", true);
+				    // // $("#btnSend").attr("disabled", true);
+
+
+
+				    // // alert("บันทึกสำเร็จ");
+
+		      //   	// alert(data.question_no);
+		        	
+		      //       // // var chartData = [34.4, 21.8, 20.1, 20, 19.6, 19.5, 19.1, 18.4, 18, 17.3];
+
+		      //       // qna_chart.series[0].setData(data.arrNonAnswer);
+		      //       // qna_chart.series[1].setData(data.arrAnswer);
+		            
+		      //       // qna_chart.xAxis[0].setCategories(data.arrQuestionType);
+
+
+
+		      //       // if (myTimer) {
+		      //       //     clearTimeout(myTimer);
+		      //       //     // console.log("myTimer is clear.");
+		      //       // }
+		            
+		      //       // // call it again after one second
+		      //       // myTimer = setTimeout(fn.QnA_Chart_requestData, 60000);    
+		        },
+		        error: function(jqXHR, textStatus, errorThrown){
+		                //alert('init error: ' + textStatus);
+		            // setTimeout(fn.QnA_Chart_requestData, 5000);   
+		        }
+		    });
+
+
+
+	});
+
+	$("#btnCancel").click(function(){
+	    // alert("The paragraph was clicked., Cancel");
+
+		// $(":submit").attr("disabled", true);
+		// $(":submit").removeAttr("disabled");
+
+		$("#btnSave").attr("disabled", true);
+		$("#btnSend").attr("disabled", true);
+		// $("#btnCancel").attr("disabled", true);
+
+		// $("#btnSave").removeAttr("disabled");
+		// $("#btnSend").removeAttr("disabled");
+		// $("#btnCancel").removeAttr("disabled");
+
+        $("#question-type-show").val('');
+        $("#question-show").html('');
+        $("#hint-show").html('');
+        $("#question-no").val('');
+
+	});
+}
